@@ -8,6 +8,7 @@ const useForm = () => {
   });
 
   const [hasError, setHasError] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const { product_name, logo_url, order_status } = inputValue;
 
@@ -32,13 +33,20 @@ const useForm = () => {
     alert(JSON.stringify(inputValue));
   };
 
+  const handleFocus = () => {
+    setHasError(false);
+    setIsDisabled(false);
+  };
+
   return {
     product_name,
     logo_url,
     order_status,
     hasError,
+    isDisabled,
     handleInputChange,
     handleSubmit,
+    handleFocus,
   };
 };
 

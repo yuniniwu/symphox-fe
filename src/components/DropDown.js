@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const Wrapper = styled.div`
   border: 1px solid black;
   padding: 1rem;
+  margin: 1rem 0 0 1rem;
 `;
 
 const OuterText = styled.p`

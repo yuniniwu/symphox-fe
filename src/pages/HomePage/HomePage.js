@@ -32,7 +32,14 @@ const NavBar = styled.nav`
   }
 `;
 
-const NavItem = styled.div``;
+const NavItem = styled.div`
+  & a > img {
+    min-width: 36px;
+    min-height: 36px;
+    width: 5vw;
+    height: 5vw;
+  }
+`;
 
 export default function HomePage() {
   const device = useRWD();

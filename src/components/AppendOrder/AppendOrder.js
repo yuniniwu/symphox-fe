@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import plusIcon from '../../icons/plus.svg';
 import useForm from '../../hooks/useForm';
@@ -6,17 +6,25 @@ import { InputItem, SelectInput } from './InputItem';
 
 const Container = styled.div`
   max-width: 960px;
+  max-height: 768px;
   margin: 0 auto;
+  width: 50vw;
+  height: 100vh;
 `;
 
 const FormWrapper = styled.form`
   display: flex;
+  width: 100%;
+  height: 100%;
   flex-direction: column;
 `;
 
 const FieldWrapper = styled.div`
+  width: 90%;
+  margin: 0 auto;
+  padding: 1rem 0;
   display: flex;
-  /* flex-direction: column; */
+  flex-grow: 1;
 `;
 
 const InputFieldWrapper = styled.div`
@@ -68,16 +76,14 @@ function InputField() {
           errorMessage={'請選擇訂單狀態'}
         />
       </InputWrapper>
-      <InputWrapper>test</InputWrapper>
-      <InputWrapper>test</InputWrapper>
     </>
   );
 }
 
 const MoreFieldButton = styled.img`
   margin: 1rem;
-  width: 36px;
-  height: 36px;
+  width: 3vw;
+  height: 3vw;
   border-radius: 50%;
   box-shadow: 2px 2px 10px #555;
   cursor: pointer;
@@ -109,18 +115,28 @@ const SubmitInput = styled.input`
 `;
 
 export default function AppendOrder() {
-  const [isDisabled, setIsDisabled] = useState(false);
-  const { handleSubmit } = useForm();
+  const { isDisabled, handleSubmit } = useForm();
+  const [groupId, setGroupId] = useState(1);
+
+  const addChild = () => {
+    setGroupId((prevState) => prevState + 1);
+  };
+
+  let array = new Array(groupId).fill('');
 
   return (
     <Container>
+      {console.log(groupId)}
+      {console.log(array.length)}
       <FormWrapper onSubmit={handleSubmit}>
         <FieldWrapper>
           <InputFieldWrapper>
-            <InputField />
+            {array.map((_, index) => (
+              <InputField key={index} fieldId={index} />
+            ))}
           </InputFieldWrapper>
 
-          <MoreFieldButton src={plusIcon} />
+          <MoreFieldButton src={plusIcon} onClick={addChild} />
         </FieldWrapper>
         <SubmitInput type='submit' value='新增' disabled={isDisabled} />
       </FormWrapper>

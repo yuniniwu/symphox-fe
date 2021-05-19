@@ -91,6 +91,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // call API
     if (!username || !password) {
       return setHasError(true);
     }

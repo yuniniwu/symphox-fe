@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const FormRow = styled.div`
   font-size: 1.2rem;
@@ -28,8 +28,7 @@ const FormRow = styled.div`
 const Alert = styled.div`
   color: #e74149;
   font-size: 1rem;
-  margin-top: 1vmin;
-  margin-left: 2vmin;
+  margin-left: 0.5rem;
 `;
 
 const InputItem = ({
@@ -52,23 +51,24 @@ const InputItem = ({
         name={name}
         onChange={handleInputChange}
         placeholder={placeholder}
+        required
       />
-      {required && hasError && !value && <Alert>{errorMessage}</Alert>}
+      {hasError && !value && <Alert>{errorMessage}</Alert>}
     </FormRow>
   );
 };
 
-// InputItem.propTypes = {
-//   type: PropTypes.string,
-//   name: PropTypes.string,
-//   value: PropTypes.string,
-//   question: PropTypes.string,
-//   placeholder: PropTypes.string,
-//   required: PropTypes.bool,
-//   hasError: PropTypes.bool,
-//   errorMessage: PropTypes.string,
-//   handleInputChange: PropTypes.func,
-// };
+InputItem.propTypes = {
+  type: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  question: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  hasError: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  handleInputChange: PropTypes.func,
+};
 
 const SelectInput = ({
   name,
@@ -84,29 +84,38 @@ const SelectInput = ({
     <FormRow>
       <label htmlFor={name}>
         {question}
-
-        <select name={name} value={value} onChange={handleInputChange} required>
-          <option value='' disabled selected>
+        <select
+          name={name}
+          defaultValue='Select'
+          onChange={handleInputChange}
+          required
+        >
+          <option value='Select' disabled>
             Select
           </option>
-          {option.map((item) => {
-            return <option value={item}>{item}</option>;
+          {option.map((item, index) => {
+            return (
+              <option value={item} key={index}>
+                {item}
+              </option>
+            );
           })}
         </select>
       </label>
-      {required && hasError && !value && <Alert>{errorMessage}</Alert>}
+      {hasError && !value && <Alert>{errorMessage}</Alert>}
     </FormRow>
   );
 };
 
-// SelectItem.propTypes = {
-//   name: PropTypes.string,
-//   value: PropTypes.string,
-//   question: PropTypes.string,
-//   required: PropTypes.bool,
-//   hasError: PropTypes.bool,
-//   errorMessage: PropTypes.string,
-//   handleInputChange: PropTypes.func,
-// };
+SelectInput.propTypes = {
+  name: PropTypes.string,
+  value: PropTypes.string,
+  question: PropTypes.string,
+  option: PropTypes.array,
+  required: PropTypes.bool,
+  hasError: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  handleInputChange: PropTypes.func,
+};
 
 export { InputItem, SelectInput };

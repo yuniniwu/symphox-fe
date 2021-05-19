@@ -8,21 +8,9 @@ import useRWD from '../../hooks/useRWD';
 import DropDown from '../../components/DropDown';
 import AppendOrder from '../../components/AppendOrder';
 
-const bg_main = theme.colors.bg_main;
-// const bg_card = theme.colors.bg_card;
-
-const Container = styled.div`
-  max-width: 360px;
-  margin: 0 auto;
-  padding: 30px;
-  font-size: 1rem;
-  background-color: ${bg_main};
-`;
-
 const NavBar = styled.nav`
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem;
 
   ${MEDIA_QUERY_S} {
     position: sticky;
@@ -33,7 +21,13 @@ const NavBar = styled.nav`
   }
 `;
 
-const NavItem = styled.div``;
+const NavItem = styled.div`
+  margin: 1rem 1rem 0 0;
+  & a > img {
+    width: 4vw;
+    height: 4vw;
+  }
+`;
 
 export default function HomePage() {
   const device = useRWD();
