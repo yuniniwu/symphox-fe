@@ -3,6 +3,8 @@ import { GlobalStyle } from '../../constants/style';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginPage from '../../pages/LoginPage';
 import HomePage from '../../pages/HomePage';
+import AppendOrderPage from '../../pages/AppendOrderPage';
+import QueryOrderPage from '../../pages/QueryOrderPage';
 
 const Container = styled.div`
   max-width: 960px;
@@ -30,12 +32,12 @@ function App() {
               <Route exact path='/'>
                 <HomePage />
               </Route>
-              {/* <Route path='/queryOrder'>
+              <Route path='/queryOrder'>
                 <QueryOrderPage />
               </Route>
-              <Route path='/addOrder'>
-                <AddOrderPage />
-              </Route> */}
+              <Route path='/appendOrder'>
+                <AppendOrderPage />
+              </Route>
             </Switch>
           </Container>
         </>

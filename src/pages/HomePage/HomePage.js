@@ -4,8 +4,8 @@ import { theme, MEDIA_QUERY_S } from '../../constants/style';
 // import { useHistory } from 'react-router-dom';
 import square from '../../icons/square.svg';
 import user from '../../icons/user.svg';
-import useRWD from '../../components/hooks/useRWD';
-import OrderTask from '../../components/OrderTask';
+import useRWD from '../../hooks/useRWD';
+import DropDown from '../../components/DropDown';
 
 const bg_main = theme.colors.bg_main;
 // const bg_card = theme.colors.bg_card;
@@ -45,9 +45,19 @@ export default function HomePage() {
     <>
       <NavBar>
         <NavItem>
-          {!isMobile(device) ? <OrderTask /> : <img src={square} alt='選單' />}
+          {!isMobile(device) ? (
+            <DropDown
+              outerText='訂單管理'
+              innerOption={[
+                { to: '/appendOrder', content: '新增訂單' },
+                { to: '/queryOrder', content: '訂單查詢' },
+              ]}
+            />
+          ) : (
+            <img src={square} alt='選單' />
+          )}
         </NavItem>
-        {!isMobile(device) && <Container>test</Container>}
+        {!isMobile(device) && <Container>HomePage</Container>}
         <NavItem>
           <a href='/login'>
             <img src={user} alt='我的帳戶' />
