@@ -6,6 +6,7 @@ import square from '../../icons/square.svg';
 import user from '../../icons/user.svg';
 import useRWD from '../../hooks/useRWD';
 import DropDown from '../../components/DropDown';
+import QueryOrder from '../../components/QueryOrder';
 
 const bg_main = theme.colors.bg_main;
 // const bg_card = theme.colors.bg_card;
@@ -57,7 +58,7 @@ export default function HomePage() {
             <img src={square} alt='選單' />
           )}
         </NavItem>
-        {!isMobile(device) && <Container>QueryOrderPage</Container>}
+        {!isMobile(device) && <QueryOrder />}
         <NavItem>
           <a href='/login'>
             <img src={user} alt='我的帳戶' />
