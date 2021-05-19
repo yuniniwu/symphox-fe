@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import dropDownArrow from '../icons/drop-down-arrow.svg';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+// useLocation, useHistory
 
 const Wrapper = styled.div`
   border: 1px solid black;
