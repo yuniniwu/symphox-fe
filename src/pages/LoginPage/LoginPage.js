@@ -1,17 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../constants/style';
 import { useHistory } from 'react-router-dom';
-
-const bg_main = theme.colors.bg_main;
-const bg_card = theme.colors.bg_card;
+import { login, getMe } from '../../WebAPI';
+import { setAuthToken } from '../../utils.js';
+import { AuthContext } from '../../constants/context';
 
 const Container = styled.div`
   max-width: 360px;
   margin: 0 auto;
   padding: 30px;
   font-size: 1rem;
-  background-color: ${bg_main};
 `;
 
 const LoginForm = styled.form`
@@ -21,7 +19,7 @@ const LoginForm = styled.form`
 `;
 
 const LoginHead = styled.p`
-  background-color: ${bg_card};
+  background-color: #eee;
   padding: 0.5rem;
 `;
 
@@ -69,16 +67,24 @@ const ErrorMessage = styled.div`
 `;
 
 export default function LoginPage() {
+  const { user, setUser } = useContext(AuthContext);
   const [inputValue, setInputValue] = useState({
     username: '',
     password: '',
   });
   const [hasError, setHasError] = useState('');
-  const history = useHistory();
-  // disabled submit button or not
+
+  // disable submit button
   const [isDisabled, setIsDisabled] = useState(false);
+  const history = useHistory();
   const errMessage = '帳號或密碼輸入錯誤';
   const { username, password } = inputValue;
+
+  useEffect(() => {
+    if (user) {
+      history.push('/');
+    }
+  }, [history, user]);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -91,26 +97,36 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // call API
+
     if (!username || !password) {
       return setHasError(true);
     }
-    if (!validateUser(username, password)) {
-      return setHasError(true);
-    }
-    setHasError(false);
-    // Linked to HomePage
-    history.push('/');
-  };
 
-  // Validate if inputValue equals required value
-  const validateUser = (username, password) => {
-    const requiredUsername = 'test@mail.com';
-    const requiredPassword = '12345';
+    login(username, password).then((data) => {
+      if (!data.ok) {
+        setIsDisabled(true);
+        return alert(data.error);
+      }
 
-    if (username === requiredUsername && password === requiredPassword)
-      return true;
-    return false;
+      setAuthToken(data.token);
+
+      getMe().then((res) => {
+        if (res.ok !== 1) {
+          setAuthToken(null);
+          setIsDisabled(true);
+          return alert(data.error);
+        }
+        setUser(res.data);
+      });
+
+      history.push('/');
+    });
+
+    setInputValue({
+      username: '',
+      password: '',
+    });
+    setIsDisabled(false);
   };
 
   const handleFocus = () => {

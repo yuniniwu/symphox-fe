@@ -137,34 +137,10 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 1rem;
   }
 
-  ${
-    '' /* body {
-    background-color: #eeede7;
-    color: #5a5a5a;
-  } */
-  }
-
-
+${
+  '' /* 
   * {
     outline: 1px solid green;
-  } 
+  }  */
+}
 `;
-
-export const MEDIA_QUERY_S = '@media screen and (max-width: 576px)';
-export const MEDIA_QUERY_MD = '@media screen and (max-width: 768px)';
-
-export const theme = {
-  colors: {
-    bg_main: '#fff', // white
-    bg_card: '#eeede7', // gray
-    bg_danger: '#e7d2cc', // red
-    bg_safe: '#738580',
-    bg_notice: '#e5d7be',
-    font_white: '#fff',
-    font_main: '#5a5a5a',
-    shadow: '#ced4da',
-    btn_main: '#868b8e',
-    btn_danger: '#c44b4f',
-    btn_save: '#746c70',
-  },
-};

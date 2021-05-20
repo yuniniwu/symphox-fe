@@ -95,7 +95,7 @@ const SelectInput = ({
           </option>
           {option.map((item, index) => {
             return (
-              <option value={item} key={index}>
+              <option value={item} key={index} checked={value === item}>
                 {item}
               </option>
             );

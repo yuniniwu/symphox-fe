@@ -1,64 +1,55 @@
-// import { useState } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
-import { theme, MEDIA_QUERY_S } from '../../constants/style';
-// import { useHistory } from 'react-router-dom';
-import square from '../../icons/square.svg';
-import user from '../../icons/user.svg';
-import useRWD from '../../hooks/useRWD';
+import { useHistory } from 'react-router-dom';
+import userIcon from '../../icons/user.svg';
 import DropDown from '../../components/DropDown';
+import { AuthContext } from '../../constants/context';
 import AppendOrder from '../../components/AppendOrder';
 
-const NavBar = styled.nav`
+const Container = styled.nav`
   display: flex;
   justify-content: space-between;
-
-  ${MEDIA_QUERY_S} {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: yellow;
-  }
 `;
 
 const NavItem = styled.div`
   margin: 1rem 1rem 0 0;
+
   & a > img {
     width: 4vw;
     height: 4vw;
   }
 `;
 
-export default function HomePage() {
-  const device = useRWD();
-  const isMobile = (device) => {
-    if (device !== 'mobile') return false;
-    return true;
-  };
+const dropDownOption = [
+  { to: '/appendOrder', content: '新增訂單' },
+  { to: '/queryOrder', content: '訂單查詢' },
+];
+
+export default function AppendOrderPage() {
+  const { user } = useContext(AuthContext);
+  const history = useHistory();
+
+  if (!user) {
+    history.push('/login');
+  }
 
   return (
-    <>
-      <NavBar>
-        <NavItem>
-          {!isMobile(device) ? (
-            <DropDown
-              outerText='訂單管理'
-              innerOption={[
-                { to: '/appendOrder', content: '新增訂單' },
-                { to: '/queryOrder', content: '訂單查詢' },
-              ]}
-            />
-          ) : (
-            <img src={square} alt='選單' />
-          )}
-        </NavItem>
-        {!isMobile(device) && <AppendOrder></AppendOrder>}
-        <NavItem>
-          <a href='/login'>
-            <img src={user} alt='我的帳戶' />
-          </a>
-        </NavItem>
-      </NavBar>
-    </>
+    <Container>
+      {user && (
+        <>
+          <NavItem>
+            <DropDown outerText='訂單管理' innerOption={dropDownOption} />
+          </NavItem>
+
+          <AppendOrder />
+
+          <NavItem>
+            <a href='/login'>
+              <img src={userIcon} alt='我的帳戶' />
+            </a>
+          </NavItem>
+        </>
+      )}
+    </Container>
   );
 }

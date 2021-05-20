@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import plusIcon from '../../icons/plus.svg';
 import useForm from '../../hooks/useForm';
@@ -33,14 +33,14 @@ const InputFieldWrapper = styled.div`
 `;
 
 const InputWrapper = styled.div`
-  margin: 1rem;
+  padding: 1rem;
 
   & + & {
-    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
   }
 `;
 
-function InputField() {
+function InputField({ fieldId }) {
   const { product_name, logo_url, order_status, hasError, handleInputChange } =
     useForm();
 
@@ -115,19 +115,16 @@ const SubmitInput = styled.input`
 `;
 
 export default function AppendOrder() {
-  const { isDisabled, handleSubmit } = useForm();
   const [groupId, setGroupId] = useState(1);
+  const { isDisabled, handleSubmit } = useForm();
+  let array = new Array(groupId).fill('');
 
   const addChild = () => {
     setGroupId((prevState) => prevState + 1);
   };
 
-  let array = new Array(groupId).fill('');
-
   return (
     <Container>
-      {console.log(groupId)}
-      {console.log(array.length)}
       <FormWrapper onSubmit={handleSubmit}>
         <FieldWrapper>
           <InputFieldWrapper>
@@ -135,7 +132,6 @@ export default function AppendOrder() {
               <InputField key={index} fieldId={index} />
             ))}
           </InputFieldWrapper>
-
           <MoreFieldButton src={plusIcon} onClick={addChild} />
         </FieldWrapper>
         <SubmitInput type='submit' value='新增' disabled={isDisabled} />

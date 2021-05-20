@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SelectInput } from '../../components/AppendOrder/InputItem';
 import { getOrders } from '../../WebAPI';
+import useForm from '../../hooks/useForm';
 
 const Container = styled.div`
   max-width: 960px;
@@ -71,16 +72,16 @@ const ItemName = styled.p`
   text-overflow: ellipsis;
 `;
 
-const OrderList = ({ item }) => {
+const OrderList = ({ order }) => {
   return (
     <OrderContent>
-      <ItemLogo src={item.logo}></ItemLogo>
+      <ItemLogo src={order.logo}></ItemLogo>
       <ItemDetail>
         <ItemTitle>
-          <ItemStatus>{item.status.type}</ItemStatus>
-          <ItemTimeStamp>預計出貨：{item.date}</ItemTimeStamp>
+          <ItemStatus>{order.status.type}</ItemStatus>
+          <ItemTimeStamp>預計出貨：{order.date}</ItemTimeStamp>
         </ItemTitle>
-        <ItemName>{item.name}</ItemName>
+        <ItemName>{order.name}</ItemName>
       </ItemDetail>
     </OrderContent>
   );
@@ -91,13 +92,16 @@ export default function QueryOrder() {
   const filterType = ['全部顯示', '進行中', '已完成'];
 
   useEffect(() => {
-    getOrders().then((orders) => setOrders(orders));
+    getOrders().then((data) => {
+      setOrders(data.orders);
+    });
   }, []);
+
+  const { handleInputChange } = useForm();
 
   return (
     <>
       {console.log(orders)}
-      {getOrders().then}
       <Container>
         <SelectStatus>
           <SelectInput
@@ -107,21 +111,22 @@ export default function QueryOrder() {
             question={'訂單狀態：'}
             option={filterType}
             errorMessage={'請選擇訂單狀態'}
+            handleInputChange={handleInputChange}
           />
         </SelectStatus>
         <OrderWrapper>
           <OrderHeading>
             <p>進行中</p>
           </OrderHeading>
-          {/* {data.orders.map((item, index) => {
-            return <OrderList key={index} item={item}></OrderList>;
+          {orders.map((order, index) => {
+            return <OrderList key={index} order={order}></OrderList>;
           })}
           <OrderHeading>
             <p>已完成</p>
           </OrderHeading>
-          {data.orders.map((item, index) => {
-            return <OrderList key={index} item={item}></OrderList>;
-          })} */}
+          {orders.map((order, index) => {
+            return <OrderList key={index} order={order}></OrderList>;
+          })}
         </OrderWrapper>
       </Container>
     </>

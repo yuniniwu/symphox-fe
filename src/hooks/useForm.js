@@ -24,6 +24,8 @@ const useForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('submit event');
+    console.log(product_name);
 
     if (!product_name || !logo_url || !order_status) {
       return setHasError(true);
