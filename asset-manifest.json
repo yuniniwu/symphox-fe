@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/symphox-fe/static/js/main.d13bc0d5.chunk.js",
+    "main.js.map": "/symphox-fe/static/js/main.d13bc0d5.chunk.js.map",
+    "runtime-main.js": "/symphox-fe/static/js/runtime-main.af14e495.js",
+    "runtime-main.js.map": "/symphox-fe/static/js/runtime-main.af14e495.js.map",
+    "static/js/2.78e70ac8.chunk.js": "/symphox-fe/static/js/2.78e70ac8.chunk.js",
+    "static/js/2.78e70ac8.chunk.js.map": "/symphox-fe/static/js/2.78e70ac8.chunk.js.map",
+    "index.html": "/symphox-fe/index.html",
+    "static/js/2.78e70ac8.chunk.js.LICENSE.txt": "/symphox-fe/static/js/2.78e70ac8.chunk.js.LICENSE.txt",
+    "static/media/drop-down-arrow.9bc62516.svg": "/symphox-fe/static/media/drop-down-arrow.9bc62516.svg",
+    "static/media/plus.6f6b1b81.svg": "/symphox-fe/static/media/plus.6f6b1b81.svg",
+    "static/media/user.bb7e8c08.svg": "/symphox-fe/static/media/user.bb7e8c08.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.af14e495.js",
+    "static/js/2.78e70ac8.chunk.js",
+    "static/js/main.d13bc0d5.chunk.js"
+  ]
+}
