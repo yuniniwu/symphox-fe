@@ -1,16 +1,30 @@
-import { getAuthToken } from './utils';
+import { getAuthToken, getOrderCode } from './utils';
 
-const GET_ORDERS_API =
-  'https://c7da2a10-6af5-4016-9789-2ef6a699796e.mock.pstmn.io/getOrders';
-
-const LOGIN_API =
-  'https://c7da2a10-6af5-4016-9789-2ef6a699796e.mock.pstmn.io/login';
-
-const GET_ME_API =
-  'https://c7da2a10-6af5-4016-9789-2ef6a699796e.mock.pstmn.io/me';
+const ORDERS_API = 'http://localhost:3310/orders';
+const LOGIN_API = 'http://localhost:3310/login';
+const GET_ME_API = 'http://localhost:3310/me';
 
 export const getOrders = () => {
-  return fetch(GET_ORDERS_API).then((response) => {
+  return fetch(ORDERS_API).then((res) => {
+    return res.json();
+  });
+};
+
+export const postOrders = (order) => {
+  const token = getAuthToken();
+  return fetch(ORDERS_API, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name: order.product_name,
+      logo: order.logo_url,
+      status: order.order_status,
+      status_code: getOrderCode(order.order_status),
+    }),
+  }).then((response) => {
     return response.json();
   });
 };

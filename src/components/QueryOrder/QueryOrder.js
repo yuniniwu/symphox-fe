@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { SelectInput } from '../../components/AppendOrder/InputItem';
 import { getOrders } from '../../WebAPI';
-import useForm from '../../hooks/useForm';
 
 const Container = styled.div`
   max-width: 960px;
-  max-height: 768px;
+  /* max-height: 768px; */
   margin: 0 auto;
   height: 100vh;
   display: flex;
@@ -89,19 +88,46 @@ const OrderList = ({ order }) => {
 
 export default function QueryOrder() {
   const [orders, setOrders] = useState([]);
+  const [filteredOrder, setFilteredOrder] = useState(orders);
+  // 選中的 filterType
+  const [selectedType, setSelectedType] = useState('全部顯示');
   const filterType = ['全部顯示', '進行中', '已完成'];
 
   useEffect(() => {
     getOrders().then((data) => {
-      setOrders(data.orders);
+      setOrders(data);
     });
   }, []);
 
-  const { handleInputChange } = useForm();
+  const handleFilter = useCallback(
+    (e) => {
+      const selectedItem = e.target.innerText;
+      if (selectedItem === '全部顯示') {
+        setSelectedType('全部顯示');
+        setFilteredOrder(orders);
+      }
+      if (selectedItem === '進行中') {
+        setSelectedType('進行中');
+        setFilteredOrder(
+          orders.filter(
+            (order) => order.status.code === '1' || order.status.code === '2'
+          )
+        );
+      }
+      if (selectedItem === '已完成') {
+        setSelectedType('已完成');
+        setFilteredOrder(
+          orders.filter(
+            (order) => order.status.code === '3' || order.status.code === '4'
+          )
+        );
+      }
+    },
+    [orders]
+  );
 
   return (
     <>
-      {console.log(orders)}
       <Container>
         <SelectStatus>
           <SelectInput
@@ -111,18 +137,13 @@ export default function QueryOrder() {
             question={'訂單狀態：'}
             option={filterType}
             errorMessage={'請選擇訂單狀態'}
-            handleInputChange={handleInputChange}
+            handleInputChange={handleFilter}
           />
         </SelectStatus>
         <OrderWrapper>
           <OrderHeading>
-            <p>進行中</p>
-          </OrderHeading>
-          {orders.map((order, index) => {
-            return <OrderList key={index} order={order}></OrderList>;
-          })}
-          <OrderHeading>
-            <p>已完成</p>
+            {selectedType === '進行中' && <p>進行中</p>}
+            {selectedType === '已完成' && <p>已完成</p>}
           </OrderHeading>
           {orders.map((order, index) => {
             return <OrderList key={index} order={order}></OrderList>;

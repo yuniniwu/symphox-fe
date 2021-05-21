@@ -47,6 +47,7 @@ function InputField({ fieldId }) {
   return (
     <>
       <InputWrapper>
+        {console.log(fieldId)}
         <InputItem
           type={'text'}
           name={'product_name'}

@@ -77,7 +77,7 @@ export default function LoginPage() {
   // disable submit button
   const [isDisabled, setIsDisabled] = useState(false);
   const history = useHistory();
-  const errMessage = '帳號或密碼輸入錯誤';
+  const errMessage = '請輸入帳號密碼';
   const { username, password } = inputValue;
 
   useEffect(() => {
@@ -105,7 +105,7 @@ export default function LoginPage() {
     login(username, password).then((data) => {
       if (!data.ok) {
         setIsDisabled(true);
-        return alert(data.error);
+        return alert(data.message);
       }
 
       setAuthToken(data.token);
@@ -114,7 +114,7 @@ export default function LoginPage() {
         if (res.ok !== 1) {
           setAuthToken(null);
           setIsDisabled(true);
-          return alert(data.error);
+          return alert(data.message);
         }
         setUser(res.data);
       });

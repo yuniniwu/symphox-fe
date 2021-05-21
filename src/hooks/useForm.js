@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { postOrders } from '../WebAPI';
 
 const useForm = () => {
-  const [inputValue, setInputValue] = useState({
-    product_name: '',
-    logo_url: '',
-    order_status: '',
+  // let initial value execute only once
+  const [inputValue, setInputValue] = useState(() => {
+    return [
+      {
+        product_name: '',
+        logo_url: '',
+        order_status: '',
+      },
+    ];
   });
 
   const [hasError, setHasError] = useState(false);
@@ -16,29 +22,39 @@ const useForm = () => {
     const value = e.target.value;
     const name = e.target.name;
 
-    setInputValue({
+    setInputValue([
       ...inputValue,
-      [name]: value,
-    });
+      {
+        [name]: value,
+      },
+    ]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('submit event');
-    console.log(product_name);
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log('submit event');
+      // console.log(inputValue);
+      // console.log(hasError);
 
-    if (!product_name || !logo_url || !order_status) {
-      return setHasError(true);
-    }
-    setHasError(false);
-    // send API to DB
-    alert(JSON.stringify(inputValue));
-  };
+      if (!product_name || !logo_url || !order_status) {
+        return setHasError(true);
+      }
+      console.log('submit event2');
+      setHasError(false);
+      // sending post request, TODO:useEffect?
 
-  const handleFocus = () => {
+      // postOrders(inputValue);
+
+      // TODO:clear input value
+    },
+    [product_name, logo_url, order_status]
+  );
+
+  const handleFocus = useCallback(() => {
     setHasError(false);
     setIsDisabled(false);
-  };
+  }, []);
 
   return {
     product_name,
