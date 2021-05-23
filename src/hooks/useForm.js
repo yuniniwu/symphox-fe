@@ -10,7 +10,6 @@ const useForm = () => {
       code: 0,
       type: 'Select',
     },
-    date: '',
   };
 
   const [fields, setFields] = useState([defaultField]);
@@ -25,8 +24,6 @@ const useForm = () => {
   const handleInputChange = (id, e) => {
     const value = e.target.value;
     const name = e.target.name;
-    console.log(name);
-    console.log(value);
     const newOrder = fields.map((item, index) => {
       if (id === index) {
         if (name === 'status') {
@@ -36,7 +33,6 @@ const useForm = () => {
         } else {
           item[name] = value;
         }
-        item.date = new Date().toLocaleString();
       }
       return item;
     });
