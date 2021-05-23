@@ -10,7 +10,7 @@ export const getOrders = () => {
   });
 };
 
-export const postOrders = (order) => {
+export const postOrders = (orders) => {
   const token = getAuthToken();
   return fetch(ORDERS_API, {
     method: 'POST',
@@ -18,14 +18,9 @@ export const postOrders = (order) => {
       'content-type': 'application/json',
       authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      name: order.product_name,
-      logo: order.logo_url,
-      status: order.order_status,
-      status_code: getOrderCode(order.order_status),
-    }),
-  }).then((response) => {
-    return response.json();
+    body: JSON.stringify(orders),
+  }).then((res) => {
+    res.json();
   });
 };
 

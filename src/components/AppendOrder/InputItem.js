@@ -41,6 +41,8 @@ const InputItem = ({
   hasError,
   errorMessage,
   handleInputChange,
+  handleFocus,
+  groupId,
 }) => {
   return (
     <FormRow>
@@ -49,7 +51,9 @@ const InputItem = ({
         type={type}
         id={name}
         name={name}
-        onChange={handleInputChange}
+        value={value}
+        onChange={(e) => handleInputChange(groupId, e)}
+        onFocus={handleFocus}
         placeholder={placeholder}
         required
       />
@@ -68,34 +72,39 @@ InputItem.propTypes = {
   hasError: PropTypes.bool,
   errorMessage: PropTypes.string,
   handleInputChange: PropTypes.func,
+  groupID: PropTypes.number,
 };
 
 const SelectInput = ({
   name,
   value,
   question,
-  option,
+  options,
   required,
   hasError,
   errorMessage,
   handleInputChange,
+  handleFocus,
+  groupId,
 }) => {
   return (
     <FormRow>
       <label htmlFor={name}>
         {question}
         <select
+          id={name}
           name={name}
-          defaultValue='Select'
-          onChange={handleInputChange}
+          value={value}
+          onChange={(e) => handleInputChange(groupId, e)}
+          onFocus={handleFocus}
           required
         >
           <option value='Select' disabled>
             Select
           </option>
-          {option.map((item, index) => {
+          {options.map((item, index) => {
             return (
-              <option value={item} key={index} checked={value === item}>
+              <option value={item} key={index}>
                 {item}
               </option>
             );
@@ -116,6 +125,32 @@ SelectInput.propTypes = {
   hasError: PropTypes.bool,
   errorMessage: PropTypes.string,
   handleInputChange: PropTypes.func,
+  groupId: PropTypes.number,
 };
 
-export { InputItem, SelectInput };
+const SubmitInput = styled.input`
+  margin: 0.5rem;
+  align-self: flex-end;
+  flex: 0;
+  border: none;
+  box-sizing: border-box;
+  box-shadow: 2px 2px 10px #555;
+  padding: 0.4rem 1.6rem;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #ddd;
+  }
+  ${(props) =>
+    props.disabled === true &&
+    `
+    background: #ccc;
+    color: #fff;
+    cursor: none;
+    transition: none;
+  `}
+`;
+
+export { InputItem, SelectInput, SubmitInput };

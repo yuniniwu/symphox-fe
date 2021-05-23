@@ -135,7 +135,7 @@ export default function QueryOrder() {
             name={'order_status'}
             defaultValue={'Select'}
             question={'訂單狀態：'}
-            option={filterType}
+            options={filterType}
             errorMessage={'請選擇訂單狀態'}
             handleInputChange={handleFilter}
           />

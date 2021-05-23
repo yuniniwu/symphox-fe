@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import plusIcon from '../../icons/plus.svg';
 import useForm from '../../hooks/useForm';
-import { InputItem, SelectInput } from './InputItem';
+import { InputItem, SelectInput, SubmitInput } from './InputItem';
 
 const Container = styled.div`
   max-width: 960px;
@@ -40,41 +39,51 @@ const InputWrapper = styled.div`
   }
 `;
 
-function InputField({ fieldId }) {
-  const { product_name, logo_url, order_status, hasError, handleInputChange } =
-    useForm();
+function InputField({
+  groupId,
+  order,
+  hasError,
+  handleInputChange,
+  handleFocus,
+}) {
+  const { name, logo, status } = order;
 
   return (
     <>
       <InputWrapper>
-        {console.log(fieldId)}
         <InputItem
           type={'text'}
-          name={'product_name'}
-          value={product_name}
+          name={'name'}
+          value={name}
           question={'商品名稱：'}
           handleInputChange={handleInputChange}
           hasError={hasError}
           errorMessage={'請輸入商品名稱'}
+          handleFocus={handleFocus}
+          groupId={groupId}
         />
         <InputItem
           type={'url'}
-          name={'logo_url'}
-          value={logo_url}
+          name={'logo'}
+          value={logo}
           question={'圖示連結：'}
           handleInputChange={handleInputChange}
           hasError={hasError}
           errorMessage={'請輸入圖示連結'}
+          handleFocus={handleFocus}
+          groupId={groupId}
         />
         <SelectInput
           type={'select'}
-          name={'order_status'}
-          value={order_status}
+          name={'status'}
+          value={status.type}
           question={'訂單狀態：'}
-          option={['已取消', '已成立', '處理中', '已送達']}
+          options={['已取消', '已成立', '處理中', '已送達']}
           handleInputChange={handleInputChange}
           hasError={hasError}
           errorMessage={'請選擇訂單狀態'}
+          handleFocus={handleFocus}
+          groupId={groupId}
         />
       </InputWrapper>
     </>
@@ -90,48 +99,33 @@ const MoreFieldButton = styled.img`
   cursor: pointer;
 `;
 
-const SubmitInput = styled.input`
-  margin: 0.5rem;
-  align-self: flex-end;
-  flex: 0;
-  border: none;
-  box-sizing: border-box;
-  box-shadow: 2px 2px 10px #555;
-  padding: 0.4rem 1.6rem;
-  background: #fff;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: #ddd;
-  }
-  ${(props) =>
-    props.disabled === true &&
-    `
-    background: #ccc;
-    color: #fff;
-    cursor: none;
-    transition: none;
-  `}
-`;
-
 export default function AppendOrder() {
-  const [groupId, setGroupId] = useState(1);
-  const { isDisabled, handleSubmit } = useForm();
-  let array = new Array(groupId).fill('');
-
-  const addChild = () => {
-    setGroupId((prevState) => prevState + 1);
-  };
+  const {
+    fields,
+    hasError,
+    isDisabled,
+    addChild,
+    handleInputChange,
+    handleSubmit,
+    handleFocus,
+  } = useForm();
 
   return (
     <Container>
       <FormWrapper onSubmit={handleSubmit}>
         <FieldWrapper>
           <InputFieldWrapper>
-            {array.map((_, index) => (
-              <InputField key={index} fieldId={index} />
+            {fields.map((field, index) => (
+              <InputField
+                key={index}
+                groupId={index}
+                order={field}
+                hasError={hasError}
+                handleInputChange={handleInputChange}
+                handleFocus={handleFocus}
+              />
             ))}
+            <div>{JSON.stringify(fields)}</div>
           </InputFieldWrapper>
           <MoreFieldButton src={plusIcon} onClick={addChild} />
         </FieldWrapper>

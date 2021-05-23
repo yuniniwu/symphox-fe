@@ -1,67 +1,73 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { postOrders } from '../WebAPI';
+import { getOrderCode } from '../utils';
 
 const useForm = () => {
-  // let initial value execute only once
-  const [inputValue, setInputValue] = useState(() => {
-    return [
-      {
-        product_name: '',
-        logo_url: '',
-        order_status: '',
-      },
-    ];
-  });
+  const defaultField = {
+    name: '',
+    logo: '',
+    status: {
+      code: 0,
+      type: 'Select',
+    },
+    date: '',
+  };
+
+  const [fields, setFields] = useState([defaultField]);
 
   const [hasError, setHasError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const { product_name, logo_url, order_status } = inputValue;
-
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    const name = e.target.name;
-
-    setInputValue([
-      ...inputValue,
-      {
-        [name]: value,
-      },
-    ]);
+  const addChild = () => {
+    setFields([...fields, defaultField]);
   };
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      console.log('submit event');
-      // console.log(inputValue);
-      // console.log(hasError);
-
-      if (!product_name || !logo_url || !order_status) {
-        return setHasError(true);
+  const handleInputChange = (id, e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+    console.log(name);
+    console.log(value);
+    const newOrder = fields.map((item, index) => {
+      if (id === index) {
+        if (name === 'status') {
+          // 用 item[name] = value 以外的方法建立物件
+          item.status.type = value;
+          item.status.code = getOrderCode(value);
+        } else {
+          item[name] = value;
+        }
+        item.date = new Date().toLocaleString();
       }
-      console.log('submit event2');
-      setHasError(false);
-      // sending post request, TODO:useEffect?
+      return item;
+    });
 
-      // postOrders(inputValue);
+    setFields(newOrder);
+  };
 
-      // TODO:clear input value
-    },
-    [product_name, logo_url, order_status]
-  );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(fields);
 
-  const handleFocus = useCallback(() => {
+    // if (!product_name || !logo_url || !order_status) {
+    //   return setHasError(true);
+    // }
+
+    // setHasError(false);
+
+    postOrders(fields);
+    setFields([defaultField]);
+  };
+
+  const handleFocus = () => {
     setHasError(false);
     setIsDisabled(false);
-  }, []);
+  };
 
   return {
-    product_name,
-    logo_url,
-    order_status,
+    fields,
     hasError,
     isDisabled,
+    addChild,
     handleInputChange,
     handleSubmit,
     handleFocus,
