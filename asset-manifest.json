@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/symphox-fe/static/js/main.f326de08.chunk.js",
-    "main.js.map": "/symphox-fe/static/js/main.f326de08.chunk.js.map",
+    "main.js": "/symphox-fe/static/js/main.f43f6c55.chunk.js",
+    "main.js.map": "/symphox-fe/static/js/main.f43f6c55.chunk.js.map",
     "runtime-main.js": "/symphox-fe/static/js/runtime-main.af14e495.js",
     "runtime-main.js.map": "/symphox-fe/static/js/runtime-main.af14e495.js.map",
     "static/js/2.5edba9c3.chunk.js": "/symphox-fe/static/js/2.5edba9c3.chunk.js",
@@ -15,6 +15,6 @@
   "entrypoints": [
     "static/js/runtime-main.af14e495.js",
     "static/js/2.5edba9c3.chunk.js",
-    "static/js/main.f326de08.chunk.js"
+    "static/js/main.f43f6c55.chunk.js"
   ]
 }
