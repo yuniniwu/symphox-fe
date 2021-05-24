@@ -1,6 +1,6 @@
-import { getAuthToken, getOrderCode } from './utils';
+import { getAuthToken } from './utils';
 
-const LOCAL = 'http://localhost:3310';
+// const LOCAL = 'http://localhost:3310';
 
 const HEROKU = 'https://salty-refuge-24417.herokuapp.com';
 

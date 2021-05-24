@@ -77,7 +77,9 @@ const OrderList = ({ order }) => {
       <ItemLogo src={order.logo}></ItemLogo>
       <ItemDetail>
         <ItemTitle>
-          <ItemStatus>{order.status.type}</ItemStatus>
+          <ItemStatus>
+            {order.status.type} | {order.status.code}
+          </ItemStatus>
           <ItemTimeStamp>預計出貨：{order.date}</ItemTimeStamp>
         </ItemTitle>
         <ItemName>{order.name}</ItemName>
@@ -88,7 +90,6 @@ const OrderList = ({ order }) => {
 
 export default function QueryOrder() {
   const [orders, setOrders] = useState([]);
-  const [filteredOrder, setFilteredOrder] = useState(orders);
   // 選中的 filterType
   const [selectedType, setSelectedType] = useState('全部顯示');
   const filterType = ['全部顯示', '進行中', '已完成'];
@@ -99,31 +100,24 @@ export default function QueryOrder() {
     });
   }, []);
 
-  const handleFilter = useCallback(
-    (e) => {
-      const selectedItem = e.target.innerText;
-      if (selectedItem === '全部顯示') {
-        setSelectedType('全部顯示');
-        setFilteredOrder(orders);
-      }
-      if (selectedItem === '進行中') {
-        setSelectedType('進行中');
-        setFilteredOrder(
-          orders.filter(
-            (order) => order.status.code === '1' || order.status.code === '2'
-          )
-        );
-      }
-      if (selectedItem === '已完成') {
-        setSelectedType('已完成');
-        setFilteredOrder(
-          orders.filter(
-            (order) => order.status.code === '3' || order.status.code === '4'
-          )
-        );
-      }
-    },
-    [orders]
+  const handleFilterChange = useCallback((_, e) => {
+    const selectedItem = e.target.value;
+    if (selectedItem === '全部顯示') {
+      setSelectedType('全部顯示');
+    }
+    if (selectedItem === '進行中') {
+      setSelectedType('進行中');
+    }
+    if (selectedItem === '已完成') {
+      setSelectedType('已完成');
+    }
+  }, []);
+
+  const openedOrders = orders.filter(
+    (order) => order.status.code === 1 || order.status.code === 2
+  );
+  const closedOrders = orders.filter(
+    (order) => order.status.code === 3 || order.status.code === 4
   );
 
   return (
@@ -133,21 +127,34 @@ export default function QueryOrder() {
           <SelectInput
             type={'select'}
             name={'order_status'}
-            defaultValue={'Select'}
+            value={selectedType}
             question={'訂單狀態：'}
             options={filterType}
             errorMessage={'請選擇訂單狀態'}
-            handleInputChange={handleFilter}
+            handleInputChange={handleFilterChange}
           />
         </SelectStatus>
         <OrderWrapper>
-          <OrderHeading>
-            {selectedType === '進行中' && <p>進行中</p>}
-            {selectedType === '已完成' && <p>已完成</p>}
-          </OrderHeading>
-          {orders.map((order, index) => {
-            return <OrderList key={index} order={order}></OrderList>;
-          })}
+          {selectedType !== '已完成' && (
+            <>
+              <OrderHeading>
+                <p>進行中</p>
+              </OrderHeading>
+              {openedOrders.map((order, index) => {
+                return <OrderList key={index} order={order}></OrderList>;
+              })}
+            </>
+          )}
+          {selectedType !== '進行中' && (
+            <>
+              <OrderHeading>
+                <p>已完成</p>
+              </OrderHeading>
+              {closedOrders.map((order, index) => {
+                return <OrderList key={index} order={order}></OrderList>;
+              })}
+            </>
+          )}
         </OrderWrapper>
       </Container>
     </>
