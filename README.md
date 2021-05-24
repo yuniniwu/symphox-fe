@@ -1,8 +1,5 @@
 [DEMO](https://yuniniwu.github.io/symphox-fe/login)
 
-帳號：2ndrainbow@gmail.com
-
-
 ### 登入畫面
 
 <img width="480" alt="截圖 2021-05-20 下午11 06 02" src="https://user-images.githubusercontent.com/20063249/119003789-96cfeb00-b9c0-11eb-8048-602776af699d.png">
