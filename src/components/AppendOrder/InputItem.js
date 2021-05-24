@@ -72,7 +72,7 @@ InputItem.propTypes = {
   hasError: PropTypes.bool,
   errorMessage: PropTypes.string,
   handleInputChange: PropTypes.func,
-  groupID: PropTypes.number,
+  groupId: PropTypes.number,
 };
 
 const SelectInput = ({

@@ -27,7 +27,6 @@ const useForm = () => {
     const newOrder = fields.map((item, index) => {
       if (id === index) {
         if (name === 'status') {
-          // 用 item[name] = value 以外的方法建立物件
           item.status.type = value;
           item.status.code = getOrderCode(value);
         } else {
@@ -42,13 +41,6 @@ const useForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(fields);
-
-    // if (!product_name || !logo_url || !order_status) {
-    //   return setHasError(true);
-    // }
-
-    // setHasError(false);
 
     postOrders(fields);
     setFields([defaultField]);

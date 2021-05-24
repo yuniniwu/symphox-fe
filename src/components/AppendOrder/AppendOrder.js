@@ -125,7 +125,6 @@ export default function AppendOrder() {
                 handleFocus={handleFocus}
               />
             ))}
-            <div>{JSON.stringify(fields)}</div>
           </InputFieldWrapper>
           <MoreFieldButton src={plusIcon} onClick={addChild} />
         </FieldWrapper>

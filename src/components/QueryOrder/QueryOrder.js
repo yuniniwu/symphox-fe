@@ -77,9 +77,7 @@ const OrderList = ({ order }) => {
       <ItemLogo src={order.logo}></ItemLogo>
       <ItemDetail>
         <ItemTitle>
-          <ItemStatus>
-            {order.status.type} | {order.status.code}
-          </ItemStatus>
+          <ItemStatus>{order.status.type}</ItemStatus>
           <ItemTimeStamp>預計出貨：{order.date}</ItemTimeStamp>
         </ItemTitle>
         <ItemName>{order.name}</ItemName>
